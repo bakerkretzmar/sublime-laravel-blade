@@ -61,7 +61,7 @@ contexts:
               pop: true
             - include: 'scope:source.php'
 
-        - match: '((\s{0}|^)(@)(php)(?!.*\(*\))|<\?(?i:php|=)?)(?![^?]*\?>)'
+        - match: '((\s{0}|^)(@)(php|setup)(?!.*\(*\))|<\?(?i:php|=)?)(?![^?]*\?>)'
           scope: punctuation.section.embedded.begin.php
           captures:
               0: punctuation.section.embedded.begin.php
@@ -71,7 +71,7 @@ contexts:
             - meta_content_scope: source.php
             - meta_scope: meta.embedded.block.blade.php
           with_prototype:
-          - match: (?=\?>|(\s{0}|^)(@)(endphp))(\?>|(\s{0}|^)(@)(endphp))
+          - match: (?=\?>|(\s{0}|^)(@)(endphp|endsetup))(\?>|(\s{0}|^)(@)(endphp|endsetup))
             captures:
               0: punctuation.section.embedded.end.php
               6: constant.other.inline-data.html
@@ -124,24 +124,6 @@ contexts:
             2: constant.other.inline-data.html
             3: entity.name.tag.block.any.html
           pop: false
-
-        - match: '(\s{0}|^)(\@)\b(setup)\b'
-          scope: punctuation.section.embedded.begin.php
-          captures:
-              0: punctuation.section.embedded.begin.php
-              2: constant.other.inline-data.html
-              3: entity.name.tag.block.any.html
-          push:
-            - meta_content_scope: source.php
-            - meta_scope: meta.embedded.block.blade.php
-          with_prototype:
-          - match: '(\s{0}|^)(\@)\b(endsetup)\b'
-            captures:
-              0: punctuation.section.embedded.end.php
-              2: constant.other.inline-data.html
-              3: entity.name.tag.block.any.html
-            pop: true
-          - include: 'scope:source.php'
 
         - match: '(\s{0}|^)(\@)\b([a-zA-Z_]+)\b(?=(|\s*|)\()'
           captures:
