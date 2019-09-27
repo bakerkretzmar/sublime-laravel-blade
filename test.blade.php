@@ -401,7 +401,7 @@ This comment will not be in the rendered HTML
 @endswitch
 
 {{-- Complex conditional --}}
-@if(($x == true) && ($y == false)) 
+@if(($x == true) && ($y == false))
     <a>foo</a>
 @endif
 
