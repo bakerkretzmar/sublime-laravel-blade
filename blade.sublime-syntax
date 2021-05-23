@@ -112,6 +112,7 @@ contexts:
             2: constant.other.inline-data.html
             3: entity.name.tag.block.any.html
 
+        # Custom directives with params
         - match: '(\s{0}|^)(\@)\b([a-zA-Z_]+)\b(?=(|\s*|)\()'
           captures:
             0: support.function
@@ -123,6 +124,7 @@ contexts:
               pop: true
             - include: 'scope:source.php'
 
+        # Custom directives without params
         - match: '(\s{0}|^)(\@)\b([a-zA-Z_]+)\b(\s?)\b'
           scope: custom.compiler.blade.php
           captures:
