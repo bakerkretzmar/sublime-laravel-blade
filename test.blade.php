@@ -101,6 +101,10 @@ Hello, {{{ $name }}}.
     Hello, {{ $name }}.
 @endisset
 
+@empty($name)
+    Hello, {{ $name }}.
+@endempty
+
 @unless (Auth::check())
     You are not signed in.
 @endunless
