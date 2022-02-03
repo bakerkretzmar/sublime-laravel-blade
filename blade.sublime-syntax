@@ -92,7 +92,7 @@ contexts:
           - include: 'scope:source.php'
 
         # These directives can take parameters, so anything inside the parentheses is also highlighted
-        - match: '(\s{0}|^)(\@)\b(auth|break|can|canany|cannot|case|choice|component|componentFirst|continue|dd|dump|each|elseauth|elsecan|elsecanany|elsecannot|elseguest|elseif|empty|error|extends|for|foreach|forelse|guest|hasSection|if|include|includeFirst|includeIf|includeWhen|inject|isset|json|lang|layout|method|php|prepend|push|section|servers|slot|stack|stop|story|switch|task|unless|unset|while|yield)\b(?=(|\s*|)\()'
+        - match: '(\s{0}|^)(\@)\b(auth|break|can|canany|cannot|case|choice|component|componentFirst|continue|dd|dump|each|elseauth|elsecan|elsecanany|elsecannot|elseguest|elseif|empty|error|extends|for|foreach|forelse|guest|hasSection|if|include|includeFirst|includeIf|includeWhen|inject|isset|json|lang|layout|method|php|prepend|props|push|section|servers|slot|stack|stop|story|switch|task|unless|unset|while|yield)\b(?=(|\s*|)\()'
           captures:
             0: punctuation.section.embedded.php
             2: constant.other.inline-data.html
