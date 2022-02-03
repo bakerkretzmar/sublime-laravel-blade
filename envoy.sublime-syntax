@@ -1,0 +1,88 @@
+%YAML 1.2
+---
+name: Laravel Envoy
+file_extensions: [Envoy.blade.php]
+scope: text.blade
+contexts:
+  main:
+    - match: ''
+      push:
+        - include: 'scope:source.shell.bash'
+        - meta_scope: source.shell.bash
+          pop: true
+      with_prototype:
+        - match: '{{--'
+          captures:
+            0: punctuation.definition.comment.begin.blade
+          push:
+            - meta_scope: comment.block.html.blade
+            - match: '--}}'
+              scope: punctuation.definition.comment.end.blade
+              pop: true
+            - match: "--"
+              scope: invalid.illegal.bad-comments-or-CDATA.html.blade
+        - match: '\{(!!)|(\{\{\{?)-?'
+          captures:
+            0: punctuation.section.embedded.begin.blade
+          push:
+            - meta_scope: entity.name.tag.blade
+            - meta_content_scope: source.php.blade
+            - match: '-?(\}?\}\})|(!!)\}'
+              captures:
+                0: punctuation.section.embedded.end.blade
+                1: punctuation.section.embedded.end.blade
+              pop: true
+            - include: 'scope:source.php'
+        - match: '((\s{0}|^)(@)(php|setup)(?!.*\(*\))|<\?(?i:php|=)?)(?![^?]*\?>)'
+          scope: punctuation.section.embedded.begin.php
+          captures:
+              0: punctuation.section.embedded.begin.php
+              3: constant.other.inline-data.html
+              4: entity.name.tag.block.any.html
+          push:
+            - meta_content_scope: source.php
+            - meta_scope: meta.embedded.block.blade.php
+          with_prototype:
+          - match: (?=\?>|(\s{0}|^)(@)(endphp|endsetup))(\?>|(\s{0}|^)(@)(endphp|endsetup))
+            captures:
+              0: punctuation.section.embedded.end.php
+              6: constant.other.inline-data.html
+              7: entity.name.tag.block.any.html
+            pop: true
+          - include: 'scope:source.php'
+        - match: '((\s{0}|^)(@)(task)(?!.*\(*\))|<\?(?i:php|=)?)(?![^?]*\?>)'
+          scope: punctuation.section.embedded.begin.php
+          captures:
+              0: punctuation.section.embedded.begin.php
+              3: constant.other.inline-data.html
+              4: entity.name.tag.block.any.html
+          push:
+            - meta_content_scope: source.php
+            - meta_scope: meta.embedded.block.blade.php
+          with_prototype:
+          - match: '(?=\?>|(\s{0}|^)(@)(endtask))(\?>|(\s{0}|^)(@)(endtask))'
+            captures:
+              0: punctuation.section.embedded.end.php
+              6: constant.other.inline-data.html
+              7: entity.name.tag.block.any.html
+            pop: true
+          - include: 'scope:source.php'
+        # These directives can take parameters, so anything inside the parentheses is also highlighted
+        - match: '(\s{0}|^)(\@)\b(break|case|continue|each|elseif|empty|error|for|foreach|forelse|if|isset|json|php|servers|stop|story|switch|task|unless|unset|while|yield)\b(?=(|\s*|)\()'
+          captures:
+            0: punctuation.section.embedded.php
+            2: constant.other.inline-data.html
+            3: entity.name.tag.block.any.html
+          push:
+            - meta_scope: custom.compiler.blade.php
+            - meta_content_scope: source.php.blade
+            - match: '(?<=\))'
+              pop: true
+            - include: 'scope:source.php'
+        # These directives NEVER take parameters, so anything inside the parentheses is ignored
+        - match: '(\s{0}|^)(\@)\b(after|break|continue|else|endafter|endempty|enderror|endfinished|endfor|endforeach|endforelse|endif|endisset|endsetup|endstory|endswitch|endtask|endunless|endwhile|finished|stop)\b'
+          scope: custom.compiler.blade.php
+          captures:
+            0: punctuation.section.embedded.php
+            2: constant.other.inline-data.html
+            3: entity.name.tag.block.any.html
