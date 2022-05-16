@@ -33,7 +33,7 @@ contexts:
                 1: punctuation.section.embedded.end.blade
               pop: true
             - include: 'scope:source.php'
-        - match: '((\s{0}|^)(@)(php|setup)(?!.*\(*\))|<\?(?i:php|=)?)(?![^?]*\?>)'
+        - match: '((\s{0}|^)(@)(after|before|php|setup)(?!.*\(*\))|<\?(?i:php|=)?)(?![^?]*\?>)'
           scope: punctuation.section.embedded.begin.php
           captures:
               0: punctuation.section.embedded.begin.php
@@ -43,7 +43,7 @@ contexts:
             - meta_content_scope: source.php
             - meta_scope: meta.embedded.block.blade.php
           with_prototype:
-          - match: (?=\?>|(\s{0}|^)(@)(endphp|endsetup))(\?>|(\s{0}|^)(@)(endphp|endsetup))
+          - match: (?=\?>|(\s{0}|^)(@)(endafter|endbefore|endphp|endsetup))(\?>|(\s{0}|^)(@)(endafter|endbefore|endphp|endsetup))
             captures:
               0: punctuation.section.embedded.end.php
               6: constant.other.inline-data.html
@@ -68,7 +68,7 @@ contexts:
             pop: true
           - include: 'scope:source.php'
         # These directives can take parameters, so anything inside the parentheses is also highlighted
-        - match: '(\s{0}|^)(\@)\b(break|case|continue|each|elseif|empty|error|for|foreach|forelse|if|isset|json|php|servers|stop|story|switch|task|unless|unset|while|yield)\b(?=(|\s*|)\()'
+        - match: '(\s{0}|^)(\@)\b(break|case|continue|each|elseif|empty|error|for|foreach|forelse|if|isset|json|php|run|servers|set|stop|story|switch|task|unless|unset|while|yield)\b(?=(|\s*|)\()'
           captures:
             0: punctuation.section.embedded.php
             2: constant.other.inline-data.html
@@ -80,7 +80,7 @@ contexts:
               pop: true
             - include: 'scope:source.php'
         # These directives NEVER take parameters, so anything inside the parentheses is ignored
-        - match: '(\s{0}|^)(\@)\b(after|break|continue|else|endafter|endempty|enderror|endfinished|endfor|endforeach|endforelse|endif|endisset|endsetup|endstory|endswitch|endtask|endunless|endwhile|finished|stop)\b'
+        - match: '(\s{0}|^)(\@)\b(break|continue|else|endempty|enderror|endfinished|endfor|endforeach|endforelse|endif|endisset|endsetup|endstory|endswitch|endtask|endunless|endwhile|finished|stop)\b'
           scope: custom.compiler.blade.php
           captures:
             0: punctuation.section.embedded.php

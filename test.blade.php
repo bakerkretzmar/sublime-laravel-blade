@@ -327,3 +327,8 @@ This comment will not be in the rendered HTML
 {{-- Validation Errors --}}
 @error('title')
 @enderror
+
+{{-- Livewire --}}
+@livewireStyles
+@livewireScripts
+@livewire('show-contact', ['contact' => $contact])

@@ -3,16 +3,34 @@
 name: Laravel Blade
 file_extensions: [blade, blade.php]
 scope: text.blade
+variables:
+  directives_args: |-
+    (?x:
+      auth | break | can | canany | cannot | case | choice | component | componentFirst
+      | continue | dd | dump | each | elseauth | elsecan | elsecanany | elsecannot
+      | elseguest | elseif | empty | error | extends | for | foreach | forelse
+      | guest | hasSection | if | include | includeFirst | includeIf | includeWhen
+      | inject | isset | js | json | lang | layout | livewire | method | php | prepend
+      | props | push | section | servers | slot | stack | stop | story | switch
+      | task | unless | unset | while | yield
+    )
+  directives_no_args: |-
+    (?x:
+      after | append | auth | break | continue | csrf | default | else | endafter
+      | endauth | endcan | endcanany | endcannot | endcomponent | endcomponentFirst
+      | endempty | enderror | endfinished | endfor | endforeach | endforelse | endguest
+      | endif | endisset | endlang | endprepend | endpush | endsection | endslot
+      | endstory | endswitch | endtask | endunless | endwhile | endverbatim | finished
+      | livewireScripts | livewireStyles | overwrite | parent | show | stop | verbatim
+    )
 contexts:
   main:
-
     - match: ''
       push:
         - include: 'scope:text.html.basic'
         - meta_scope: text.html.blade
           pop: true
       with_prototype:
-
         - match: '{{--'
           captures:
             0: punctuation.definition.comment.begin.blade
@@ -23,7 +41,6 @@ contexts:
               pop: true
             - match: "--"
               scope: invalid.illegal.bad-comments-or-CDATA.html.blade
-
         - match: '\{(!!)|(\{\{\{?)-?'
           captures:
             0: punctuation.section.embedded.begin.blade
@@ -36,7 +53,6 @@ contexts:
                 1: punctuation.section.embedded.end.blade
               pop: true
             - include: 'scope:source.php'
-
         - match: '@\{\{'
           captures:
             0: punctuation.section.embedded.ignore.begin.blade
@@ -48,7 +64,6 @@ contexts:
                 0: punctuation.section.embedded.ignore.end.blade
                 1: punctuation.section.embedded.ignore.end.blade
               pop: true
-
         - match: '<\?(?i:php|=)?'
           captures:
             0: punctuation.section.embedded.begin.blade
@@ -60,8 +75,7 @@ contexts:
                 0: punctuation.section.embedded.end.blade
               pop: true
             - include: 'scope:source.php'
-
-        - match: '((\s{0}|^)(@)(php|setup)(?!.*\(*\))|<\?(?i:php|=)?)(?![^?]*\?>)'
+        - match: '((\s{0}|^)(@)(php)(?!.*\(*\))|<\?(?i:php|=)?)(?![^?]*\?>)'
           scope: punctuation.section.embedded.begin.php
           captures:
               0: punctuation.section.embedded.begin.php
@@ -71,14 +85,13 @@ contexts:
             - meta_content_scope: source.php
             - meta_scope: meta.embedded.block.blade.php
           with_prototype:
-          - match: (?=\?>|(\s{0}|^)(@)(endphp|endsetup))(\?>|(\s{0}|^)(@)(endphp|endsetup))
+          - match: (?=\?>|(\s{0}|^)(@)(endphp))(\?>|(\s{0}|^)(@)(endphp))
             captures:
               0: punctuation.section.embedded.end.php
               6: constant.other.inline-data.html
               7: entity.name.tag.block.any.html
             pop: true
           - include: 'scope:source.php'
-
         - match: '<\?(?i:php|=)?'
           scope: punctuation.section.embedded.begin.php
           push:
@@ -90,9 +103,8 @@ contexts:
               0: punctuation.section.embedded.end.php
             pop: true
           - include: 'scope:source.php'
-
         # These directives can take parameters, so anything inside the parentheses is also highlighted
-        - match: '(\s{0}|^)(\@)\b(auth|break|can|canany|cannot|case|choice|component|componentFirst|continue|dd|dump|each|elseauth|elsecan|elsecanany|elsecannot|elseguest|elseif|empty|error|extends|for|foreach|forelse|guest|hasSection|if|include|includeFirst|includeIf|includeWhen|inject|isset|json|lang|layout|method|php|prepend|props|push|section|servers|slot|stack|stop|story|switch|task|unless|unset|while|yield)\b(?=(|\s*|)\()'
+        - match: '(\s{0}|^)(\@)\b({{directives_args}})\b(?=(|\s*|)\()'
           captures:
             0: punctuation.section.embedded.php
             2: constant.other.inline-data.html
@@ -103,15 +115,13 @@ contexts:
             - match: '(?<=\))'
               pop: true
             - include: 'scope:source.php'
-
         # These directives NEVER take parameters, so anything inside the parentheses is ignored
-        - match: '(\s{0}|^)(\@)\b(after|append|auth|break|continue|csrf|default|else|endafter|endauth|endcan|endcanany|endcannot|endcomponent|endcomponentFirst|endempty|enderror|endfinished|endfor|endforeach|endforelse|endguest|endif|endisset|endlang|endprepend|endpush|endsection|endslot|endstory|endswitch|endtask|endunless|endwhile|endverbatim|finished|overwrite|parent|show|stop|verbatim)\b'
+        - match: '(\s{0}|^)(\@)\b({{directives_no_args}})\b'
           scope: custom.compiler.blade.php
           captures:
             0: punctuation.section.embedded.php
             2: constant.other.inline-data.html
             3: entity.name.tag.block.any.html
-
         # Custom directives with params
         - match: '(\s{0}|^)(\@)\b([a-zA-Z_]+)\b(?=(|\s*|)\()'
           captures:
@@ -123,7 +133,6 @@ contexts:
             - match: '(?<=\))'
               pop: true
             - include: 'scope:source.php'
-
         # Custom directives without params
         - match: '(\s{0}|^)(\@)\b([a-zA-Z_]+)\b(\s?)\b'
           scope: custom.compiler.blade.php
