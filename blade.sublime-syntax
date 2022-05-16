@@ -6,22 +6,23 @@ scope: text.blade
 variables:
   directives_args: |-
     (?x:
-      auth | break | can | canany | cannot | case | choice | component | componentFirst
-      | continue | dd | dump | each | elseauth | elsecan | elsecanany | elsecannot
-      | elseguest | elseif | empty | error | extends | for | foreach | forelse
-      | guest | hasSection | if | include | includeFirst | includeIf | includeWhen
-      | inject | isset | js | json | lang | layout | livewire | method | php | prepend
-      | props | push | section | servers | slot | stack | stop | story | switch
-      | task | unless | unset | while | yield
+      auth | break | can | canany | cannot | case | choice | class | component
+      | componentFirst | continue | dd | dump | each | elseauth | elsecan
+      | elsecanany | elsecannot | elseguest | elseif | empty | env | error
+      | extends | for | foreach | forelse | guest | hasSection | if | include
+      | includeFirst | includeIf | includeWhen | inject | isset | js | json | lang
+      | layout | livewire | method | php | prepend | props | push | section | servers
+      | slot | stack | stop | story | switch | task | unless | unset | while | yield
     )
   directives_no_args: |-
     (?x:
       after | append | auth | break | continue | csrf | default | else | endafter
       | endauth | endcan | endcanany | endcannot | endcomponent | endcomponentFirst
-      | endempty | enderror | endfinished | endfor | endforeach | endforelse | endguest
-      | endif | endisset | endlang | endprepend | endpush | endsection | endslot
-      | endstory | endswitch | endtask | endunless | endwhile | endverbatim | finished
-      | livewireScripts | livewireStyles | overwrite | parent | show | stop | verbatim
+      | endempty | env | enderror | endfinished | endfor | endforeach | endforelse
+      | endguest | endif | endisset | endlang | endonce | endprepend | endproduction
+      | endpush | endsection | endslot | endstory | endswitch | endtask | endunless
+      | endwhile | endverbatim | finished | livewireScripts | livewireStyles | once
+      | overwrite | parent | production | show | stop | verbatim
     )
 contexts:
   main:

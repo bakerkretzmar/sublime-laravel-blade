@@ -332,3 +332,25 @@ This comment will not be in the rendered HTML
 @livewireStyles
 @livewireScripts
 @livewire('show-contact', ['contact' => $contact])
+
+@once
+    @push('scripts')
+        <script src="/example.js"></script>>
+    @endpush
+@endonce
+
+
+{{-- Environment Directives --}}
+@production
+    In Production
+@endproduction
+
+@env('staging')
+    The application is running in "staging"...
+@endenv
+
+{{-- Conditional Classes --}}
+<span @class(['font-bold', 'mt-4', 'ml-2' => true, 'mr-2' => false])></span>
+
+{{-- Rendering JSON --}}
+@js($data, JSON_FORCE_OBJECT, 256)
